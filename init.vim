@@ -1,6 +1,7 @@
 set tabstop=4
 set shiftwidth=4
 
+
 call plug#begin()
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
@@ -39,6 +40,13 @@ Plug 'numToStr/Comment.nvim'
 
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
+
+Plug 'folke/trouble.nvim'
+
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'sainnhe/sonokai'
+
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'junegunn/vim-easy-align'
@@ -109,7 +117,42 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("lspconfig").tailwindcss.setup {}
 require'lspconfig'.tsserver.setup{}
-require'lspconfig'.omnisharp.setup{}
+EOF
+
+lua << EOF
+local function filter_diagnostics(result)
+  local fname = vim.uri_to_fname(result.uri)
+  local patterns = {".*[/\\][Oo]bj[/\\].*%.cs$", ".*[/\\]%.nuget[/\\].*$", ".*[/\\][Mm]igrations[/\\].*%.cs$"}
+  for _, pattern in ipairs(patterns) do
+    if string.match(fname, pattern) then
+	  return {}
+    end
+  end
+  return result.diagnostics
+end
+
+local lsp_publish_diagnostics = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+})
+
+local function custom_publish_diagnostics(err, result, ctx, config)
+  if not err then
+	result.diagnostics = filter_diagnostics(result)
+  end
+  lsp_publish_diagnostics(err, result, ctx, config)
+end
+
+local lspconfig = require('lspconfig')
+
+lspconfig.omnisharp.setup{
+  filetypes = { "cs" },
+  handlers = {
+    ["textDocument/publishDiagnostics"] = custom_publish_diagnostics,
+  },
+}
 EOF
 
 set number
@@ -414,104 +457,39 @@ require('vgit').setup({
 EOF
 
 lua << EOF
--- Location information about the last message printed. The format is
--- `(did print, buffer number, line number)`.
-local last_echo = { false, -1, -1 }
-
--- The timer used for displaying a diagnostic in the commandline.
-local echo_timer = nil
-
--- The timer after which to display a diagnostic in the commandline.
-local echo_timeout = 250
-
--- The highlight group to use for warning messages.
-local warning_hlgroup = 'WarningMsg'
-
--- The highlight group to use for error messages.
-local error_hlgroup = 'ErrorMsg'
-
--- If the first diagnostic line has fewer than this many characters, also add
--- the second line to it.
-local short_line_limit = 20
-
--- Shows the current line's diagnostics in a floating window.
-function show_line_diagnostics()
-  vim
-    .lsp
-    .diagnostic
-    .show_line_diagnostics({ severity_limit = 'Warning' }, vim.fn.bufnr(''))
-end
-
--- Prints the first diagnostic for the current line.
-function echo_diagnostic()
-  if echo_timer then
-    echo_timer:stop()
-  end
-
-  echo_timer = vim.defer_fn(
-    function()
-      local line = vim.fn.line('.') - 1
-      local bufnr = vim.api.nvim_win_get_buf(0)
-
-      if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then
-        return
-      end
-
-      local diags = vim
-        .lsp
-        .diagnostic
-        .get_line_diagnostics(bufnf, line, { severity_limit = 'Warning' })
-
-      if #diags == 0 then
-        -- If we previously echo'd a message, clear it out by echoing an empty
-        -- message.
-        if last_echo[1] then
-          last_echo = { false, -1, -1 }
-
-          vim.api.nvim_command('echo ""')
-        end
-
-        return
-      end
-
-      last_echo = { true, bufnr, line }
-
-      local diag = diags[1]
-      local width = vim.api.nvim_get_option('columns') - 15
-      local lines = vim.split(diag.message, "\n")
-      local message = lines[1]
-      local trimmed = false
-
-      if #lines > 1 and #message <= short_line_limit then
-        message = message .. ' ' .. lines[2]
-      end
-
-      if width > 0 and #message >= width then
-        message = message:sub(1, width) .. '...'
-      end
-
-      local kind = 'warning'
-      local hlgroup = warning_hlgroup
-
-      if diag.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-        kind = 'error'
-        hlgroup = error_hlgroup
-      end
-
-      local chunks = {
-        { kind .. ': ', hlgroup },
-        { message }
-      }
-
-      vim.api.nvim_echo(chunks, false, {})
-    end,
-    echo_timeout
-  )
-end
+require("trouble").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
 EOF
 
-autocmd CursorMoved * :lua echo_diagnostic()
+lua << EOF
+vim.diagnostic.config({
+  underline = {
+    severity = { max = vim.diagnostic.severity.INFO }
+  },
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.INFO }
+  },
+  signs = {
+    severity = { min = vim.diagnostic.severity.INFO }
+  }
+})
+EOF
+
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 nnoremap <C-b> :NvimTreeFocus<CR>
 nnoremap <C-S-b> :NvimTreeToggle<CR>
 nnoremap <C-p> :Files<CR>
+
+let g:sonokai_style = 'shusia'
+let g:sonokai_better_performance = 1
+colorscheme sonokai
+
