@@ -502,7 +502,6 @@ null_ls.setup({
       	  -- Optional: You can specify the location of the Prettier executable
       	  command = "/opt/homebrew/bin/prettier",
     	}),
-        null_ls.builtins.formatting.stylua,
         null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.completion.spell,
     },
@@ -517,6 +516,6 @@ augroup END
 
 augroup FormatOnEvent
   autocmd!
-  autocmd TextChanged,InsertLeave * silent! lua require('vim.lsp.buf').format()
+  autocmd InsertLeave * silent! lua require('vim.lsp.buf').format()
 augroup END
 
