@@ -47,6 +47,7 @@ Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'sainnhe/sonokai'
 
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'junegunn/vim-easy-align'
@@ -492,4 +493,30 @@ nnoremap <C-p> :Files<CR>
 let g:sonokai_style = 'shusia'
 let g:sonokai_better_performance = 1
 colorscheme sonokai
+
+lua << EOF
+local null_ls = require("null-ls")
+null_ls.setup({
+    sources = {
+		null_ls.builtins.formatting.prettier.with({
+      	  -- Optional: You can specify the location of the Prettier executable
+      	  command = "/opt/homebrew/bin/prettier",
+    	}),
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.spell,
+    },
+})
+EOF
+nnoremap <silent> <Leader>f :lua vim.lsp.buf.format { async = true }<CR>
+
+augroup FormatOnSave
+  autocmd!
+  autocmd BufWritePre * lua require('vim.lsp.buf').format()
+augroup END
+
+augroup FormatOnEvent
+  autocmd!
+  autocmd TextChanged,InsertLeave * silent! lua require('vim.lsp.buf').format()
+augroup END
 
