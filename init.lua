@@ -60,7 +60,8 @@ Plug 'folke/trouble.nvim'
 -- Themes
 Plug('catppuccin/nvim', { ['as'] = 'catppuccin' })
 Plug('folke/tokyonight.nvim', { ['branch'] = 'main' })
-Plug 'sainnhe/sonokai'
+Plug '~/Source/sonokai'
+
 
 -- Symbols Window
 Plug 'simrat39/symbols-outline.nvim'
