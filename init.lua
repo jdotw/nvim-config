@@ -60,14 +60,16 @@ Plug 'folke/trouble.nvim'
 -- Themes
 Plug('catppuccin/nvim', { ['as'] = 'catppuccin' })
 Plug('folke/tokyonight.nvim', { ['branch'] = 'main' })
-Plug '~/Source/sonokai'
-
+Plug 'jdotw/sonokai'
 
 -- Symbols Window
 Plug 'simrat39/symbols-outline.nvim'
 
 -- Code Actions
 Plug 'weilbith/nvim-code-action-menu'
+
+-- Tree Sitter
+Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 
 --
 -- End of Plugins
@@ -90,3 +92,4 @@ require 'diagnostic'
 require 'colorscheme'
 require 'symbol'
 require 'formatting'
+require 'highlighting'
