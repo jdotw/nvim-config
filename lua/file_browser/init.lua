@@ -22,10 +22,11 @@ require 'nvim-tree'.setup {
 	},
 }
 
-vim.keymap.set('n', '<C-b>', '<Cmd>NvimTreeFocus<CR>')
+vim.keymap.set('n', '<C-b>', '<Cmd>NvimTreeFindFile<CR>')
 vim.keymap.set('n', '<C-S-b>', '<Cmd>NvimTreeToggle<CR>')
 
 --
 -- fzf Fuzzy File Finder
 --
 vim.keymap.set('n', '<C-p>', '<Cmd>Files<CR>')
+vim.keymap.set('n', '<C-s-p>', '<Cmd>Rg<CR>')

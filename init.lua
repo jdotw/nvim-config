@@ -1,12 +1,13 @@
 -- Default formatting options
-
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 -- Line numbers
-
 vim.opt.number = true
 vim.opt.relativenumber = true
+
+-- Clipboard
+vim.api.nvim_set_option("clipboard", "unnamed") -- use system clipboard
 
 --
 -- Plugins via Plug
@@ -93,3 +94,6 @@ require 'colorscheme'
 require 'symbol'
 require 'formatting'
 require 'highlighting'
+
+-- Remaps
+vim.keymap.set('n', '<C-h>', '<Cmd>History<CR>')
