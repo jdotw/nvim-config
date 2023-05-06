@@ -75,6 +75,9 @@ Plug 'weilbith/nvim-code-action-menu'
 -- Tree Sitter
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 
+-- Abolish
+Plug('tpope/vim-abolish')
+
 --
 -- End of Plugins
 --
