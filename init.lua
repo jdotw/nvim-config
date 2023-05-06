@@ -29,6 +29,9 @@ Plug 'wuelnerdotexe/vim-astro'
 -- Utilities
 Plug 'nvim-lua/plenary.nvim' -- Common nvim lua functions
 
+-- Terminal
+Plug 'akinsho/nvim-toggleterm.lua'
+
 -- Git integration
 Plug 'tanvirtin/vgit.nvim'
 
@@ -86,6 +89,7 @@ vim.g.loaded_netrwPlugin = 1
 --
 require 'file_browser'
 require 'lsp'
+require 'terminal'
 require 'completion'
 require 'commentout'
 require 'git'
