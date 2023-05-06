@@ -26,8 +26,8 @@ local lazygit     = Terminal:new({
 	end,
 })
 
-function _lazygit_toggle()
+function LazyGitToggle()
 	lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>gg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader><leader>g", "<cmd>lua LazyGitToggle()<CR>", { noremap = true, silent = true })
