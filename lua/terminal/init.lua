@@ -12,11 +12,7 @@ local Terminal = require('toggleterm.terminal').Terminal
 local right_term = Terminal:new({
 	direction = 'vertical',
 	highlights = {
-		Normal = {
-			guibg = '#121012',
-			guifg = '#abb2bf'
-		},
-		-- 	FloatNormal = {}
+		Terminal = {},
 	},
 	on_open = function()
 		vim.cmd('startinsert!')
@@ -35,4 +31,4 @@ function RightTermToggle()
 	right_term:toggle()
 end
 
-vim.keymap.set('n', '<leader>tt', [[<Cmd>lua RightTermToggle()<CR>]], { noremap = true, silent = true })
+vim.keymap.set('n', '<leader><leader>t', [[<Cmd>lua RightTermToggle()<CR>]], { noremap = true, silent = true })
