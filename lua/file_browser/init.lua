@@ -29,4 +29,4 @@ vim.keymap.set('n', '<C-S-b>', '<Cmd>NvimTreeToggle<CR>')
 -- fzf Fuzzy File Finder
 --
 vim.keymap.set('n', '<C-p>', '<Cmd>Files<CR>')
-vim.keymap.set('n', '<C-s-p>', '<Cmd>Rg<CR>')
+vim.keymap.set('n', '<C-S-p>', '<Cmd>Rg<CR>')
