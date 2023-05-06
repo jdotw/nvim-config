@@ -9,6 +9,9 @@ local lazygit     = Terminal:new({
 	cmd = "lazygit",
 	dir = "git_dir",
 	direction = "float",
+	highlights = {
+		NormalFloat = {},
+	},
 	float_opts = {
 		border = "curved",
 	},

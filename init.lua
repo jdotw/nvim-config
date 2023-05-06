@@ -89,15 +89,15 @@ vim.g.loaded_netrwPlugin = 1
 --
 require 'file_browser'
 require 'lsp'
-require 'terminal'
 require 'completion'
 require 'commentout'
-require 'git'
 require 'diagnostic'
 require 'colorscheme'
 require 'symbol'
 require 'formatting'
 require 'highlighting'
+require 'terminal'
+require 'git'
 
 -- Remaps
 vim.keymap.set('n', '<C-h>', '<Cmd>History<CR>')

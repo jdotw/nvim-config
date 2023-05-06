@@ -5,12 +5,19 @@ require("toggleterm").setup({
 		elseif term.direction == "vertical" then
 			return 80
 		end
-	end
+	end,
 })
 
 local Terminal = require('toggleterm.terminal').Terminal
 local right_term = Terminal:new({
 	direction = 'vertical',
+	highlights = {
+		Normal = {
+			guibg = '#121012',
+			guifg = '#abb2bf'
+		},
+		-- 	FloatNormal = {}
+	},
 	on_open = function()
 		vim.cmd('startinsert!')
 		local opts = { buffer = 0 }
