@@ -65,6 +65,7 @@ Plug 'folke/trouble.nvim'
 Plug('catppuccin/nvim', { ['as'] = 'catppuccin' })
 Plug('folke/tokyonight.nvim', { ['branch'] = 'main' })
 Plug 'jdotw/sonokai'
+-- Plug '~/Source/sonokai'
 
 -- Symbols Window
 Plug 'simrat39/symbols-outline.nvim'
@@ -101,6 +102,9 @@ require 'formatting'
 require 'highlighting'
 require 'terminal'
 require 'git'
+require 'signature'
 
 -- Remaps
 vim.keymap.set('n', '<C-h>', '<Cmd>History<CR>')
+vim.api.nvim_command('command! W w')
+vim.api.nvim_command('command! Q q')
