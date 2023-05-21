@@ -36,6 +36,8 @@ require 'lspconfig'.tsserver.setup {}
 require 'lspconfig'.vimls.setup {}
 require 'lspconfig'.yamlls.setup {}
 require 'lspconfig'.astro.setup {}
+require 'lspconfig'.prismals.setup {}
+require 'lspconfig'.gopls.setup {}
 
 --
 -- C# Hack
