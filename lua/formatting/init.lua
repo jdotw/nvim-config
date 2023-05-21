@@ -6,7 +6,7 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.prettier.with({
 			-- Optional: You can specify the location of the Prettier executable
-			command = "/opthomebrew/bin/prettier",
+			command = "/opt/homebrew/bin/prettier",
 		}),
 		null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.completion.spell,
