@@ -31,7 +31,7 @@ require 'lspconfig'.lua_ls.setup {
 
 require 'lspconfig'.taplo.setup {}
 require 'lspconfig'.tsserver.setup {}
-require 'lspconfig'.tailwindcss.setup {}
+-- require 'lspconfig'.tailwindcss.setup {}
 require 'lspconfig'.tsserver.setup {}
 require 'lspconfig'.vimls.setup {}
 require 'lspconfig'.yamlls.setup {}
